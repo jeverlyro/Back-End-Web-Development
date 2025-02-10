@@ -1,33 +1,57 @@
 const http = require("http");
-const hello = require("./helloworld");
+const getUsers = require("./users");
 const moment = require("moment");
+const express = require("express");
+const { stat } = require("fs");
 
-const server = http.createServer((req, res) => {
-  console.log(req.url);
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "text/json");
-  // res.write(hello);
-  // res.write("\n");
-  const url = req.url;
-  if (url === "/") {
-    res.write(This is the home page);
-  } else if (url === "/about") {
-    res.write(JSON.stringify({status: "success", message: "response success", date: moment().format("YYYY-MM-DD")}));
-  } else {
-    res.statusCode = 404;
-    res.write(
-      JSON.stringify({
-        status: "error",
-        message: "not found",
-        date: moment().format("YYYY-MM-DD"),
-      }),
-    );
-  }
-  res.end();
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+app.get("/about", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "This is the about page",
+  });
+});
+
+app.get("/date", (req, res) => {
+  res.send(moment().format("MMMM Do YYYY, h:mm:ss a"));
+});
+
+app.post("/users", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "User created successfully",
+  });
+});
+
+app.put("/", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Successfully requested put method",
+  });
+});
+
+app.delete("/users/:id", (req, res) => {
+  res.send(`Successfully deleted user ${req.params.id}`);
+});
+
+app.patch("/", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Successfully requested patch method",
+  });
+});
+
+app.all("/universal", (req, res) => {
+  res.send("Requested method is " + req.method);
 });
 
 const hostname = "127.0.0.1";
 const port = 3000;
-server.listen(port, hostname, () => {
+app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
