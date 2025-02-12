@@ -1,5 +1,5 @@
 const http = require("http");
-const getUsers = require("./users");
+const getUsers = require("../users");
 const moment = require("moment");
 const express = require("express");
 const { stat } = require("fs");
@@ -48,6 +48,11 @@ app.patch("/", (req, res) => {
 
 app.all("/universal", (req, res) => {
   res.send("Requested method is " + req.method);
+});
+
+app.get("/post", (req, res) => {
+  const { page, sort } = req.query;
+  res.send(`Requested page is ${page} sort is ${sort}`);
 });
 
 const hostname = "127.0.0.1";
