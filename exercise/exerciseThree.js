@@ -18,6 +18,12 @@ app.get("/about", (req, res) => {
   });
 });
 
+app.get("/users", (req, res) => {
+  res.status(200).json({
+    getUsers,
+  });
+});
+
 app.get("/:id", (req, res) => {
   res.status(404).json({
     status: "error",
