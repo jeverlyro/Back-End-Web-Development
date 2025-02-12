@@ -14,6 +14,7 @@ app.get("/about", (req, res) => {
   res.status(200).json({
     status: "success",
     message: "response success",
+    description: "Exercise #03",
     date: moment().format("MMMM Do YYYY, h:mm:ss a"),
   });
 });
