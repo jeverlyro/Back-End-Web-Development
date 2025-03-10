@@ -2,6 +2,7 @@ const moment = require("moment");
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
+const cors = require("cors"); // Add this import
 
 const app = express();
 const routers = require("./routers");
@@ -20,6 +21,10 @@ app.use(morgan("tiny"));
 // app.use(errorhandler);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors({
+  origin: "http://127.0.0.1:5500",
+  methods: ["GET", "PUT"],
+ }));
 
 //Routing
 app.use(routers);
